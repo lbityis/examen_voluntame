@@ -5,7 +5,7 @@ import re
 # Validación formato de Email
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
-# CLASE DE USUARIO
+#CLASE DE USUARIO
 class Usuario:
     def __init__(self, data):
         # Mapeamos las columnas tabla 'usuarios'
@@ -34,8 +34,7 @@ class Usuario:
         query = "SELECT * FROM usuarios WHERE email = %(email)s;"
         resultado = connect_to_mysql('voluntame_db').query_db(query, formulario)
         
-        # Corrección: Evita el uso de len() sobre valores booleanos (False)
-        if not resultado:
+        if len(resultado) < 1:
             return False
             
         return cls(resultado[0])
@@ -45,11 +44,8 @@ class Usuario:
         """Obtiene un usuario por su ID para validar sesiones."""
         query = "SELECT * FROM usuarios WHERE id_usuario = %(id_usuario)s;"
         resultado = connect_to_mysql('voluntame_db').query_db(query, formulario)
-        
-        # Corrección: Evita el uso de len() sobre valores booleanos (False)
-        if not resultado:
+        if len(resultado) < 1:
             return False
-            
         return cls(resultado[0])
 
 
